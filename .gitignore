@@ -1,0 +1,57 @@
+# ------------------------------
+# Generic
+# ------------------------------
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# OS / editor
+.vscode/
+.idea/
+
+# ------------------------------
+# Node / Web (if any)
+# ------------------------------
+node_modules/
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ------------------------------
+# Gradle / Android Studio
+# ------------------------------
+.gradle/
+**/.gradle/
+/build/
+
+# Gradle wrapper (keep these)
+!gradle/wrapper/gradle-wrapper.jar
+
+# Android/Gradle build outputs
+**/build/
+**/.externalNativeBuild/
+**/.cxx/
+
+# Local configuration containing secrets
+android-apk/local.properties
+
+# Android Studio
+captures/
+
+# ------------------------------
+# IntelliJ/Android Studio artifacts
+# ------------------------------
+*.iml
+*.ipr
+*.iws
+
+# ------------------------------
+# Misc
+# ------------------------------
+*.swp
+*.swo
+*~
+
