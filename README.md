@@ -6,6 +6,8 @@ Text Walk is a small web project that lets you type a message, pick a color, and
 
 Just visit the link here = https://draco-go-89.github.io/text-walk/
 
+## Install APP
+https://github.com/draco-go-89/text-walk/releases/tag/APK
 ## Screenshot
 
 <img width="768" height="863" alt="Screenshot 2026-05-22 161838" src="https://github.com/user-attachments/assets/ed91ff7e-5dec-47e3-94cb-4fd788baec28" />
