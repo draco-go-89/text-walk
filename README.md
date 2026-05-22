@@ -4,7 +4,7 @@ Text Walk is a small web project that lets you type a message, pick a color, and
 
 ## How to go 
 
-Just visit the link here =
+Just visit the link here = [TEXT WALK](https://draco-go-89.github.io/text-walk/)
 
 ## Screenshot
 
