@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  <title>TEXT WALK MADE BY LUBO</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="title" content="text walk">
+  <meta name="description" content="HI I'M LUBO">
+
+  <!--ni css ya cuy-->
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: sans-serif;
+      font-weight: bold;
+      outline: none;
+    }
+
+    body {
+      background: black;
+    }
+
+    .selection {
+      margin: 0 auto;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .selection input {
+      border: none;
+      font-size: 20px;
+      min-height: 30px;
+      min-width: 100px;
+      background: transparent;
+      border-bottom: 1px solid #ddd;
+      color: white;
+    }
+
+    button {
+      font-size: 20px;
+      min-height: 30px;
+      border: none;
+      border-radius: 4px;
+      background: red;
+    }
+
+    button:hover {
+      background: #c2a300;
+    }
+
+    .selection input,
+    .selection button {
+      margin: 0 10px;
+      padding: 0 10px;
+    }
+
+    .text {
+      font-size: 200px;
+      display: flex;
+      align-items: center;
+      height: 100vh;
+    }
+  </style>
+  <!--ampe sini css nya ya cuy-->
+
+
+</head>
+
+<body>
+  <div id="selection" class="selection">
+    <input type="text" minlength="1" id="text" placeholder="ENTER THE TEXT">
+    <input type="color" id="color" value="#00008b">
+    <button onclick="makeText()">START</button>
+  </div>
+
+  <div id="display" class="display" style="display: none;">
+    <marquee width="100%" id="textDisplay" class="text" scrollamount="40" direction="left">
+    </marquee>
+  </div>
+
+
+  <!--ni javascript ya cuy-->
+  <script type="text/javascript">
+    const selection = document.getElementById("selection");
+    const display = document.getElementById("display");
+    let textDisplay = document.getElementById("textDisplay");
+
+    textDisplay.stop();
+
+    function makeText() {
+      const text = document.getElementById("text");
+      const color = document.getElementById("color");
+
+      if (!text.value || text.value == "" || text.value <= 4) {
+        return alert(" lol enter the text, atlest 1 text mahfuckin")
+      }
+
+      textDisplay.innerHTML = text.value;
+      textDisplay.style.color = color.value;
+
+      selection.style.display = "none";
+      display.style.display = "block";
+
+      alert("TURN THE PORTRAIT MODE ON AND ROTATE YOUR PHONE FOR FULL SCREEN EXPERIENCE!");
+
+      textDisplay.start();
+    }
+  </script>
+
+</body>
+
+</html>
