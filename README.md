@@ -2,10 +2,6 @@
 
 Text Walk is a small web project that lets you type a message, pick a color, and then start a full-screen “text walk” animation using an HTML marquee. Built with plain HTML/CSS/JavaScript—enter your text, press START, and watch it scroll across the screen.
 
-## How to go 
-
-Just visit the link here = https://draco-go-89.github.io/text-walk/
-
 ## Install APP
 https://github.com/draco-go-89/text-walk/releases/tag/APK
 ## Screenshot
