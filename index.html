@@ -1,122 +1,450 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEXT WALK</title>
+    <style>
+        :root {
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --accent-color: #ff3b30;
+            --panel-bg: rgba(15, 15, 15, 0.98);
+        }
 
-  <title>TEXT WALK</title>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.4s ease;
+        }
 
-  <meta name="title" content="text walk">
-  <meta name="description" content="HI I'M LUBO">
+        /* Settings Overlay */
+        #settings-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--panel-bg);
+            backdrop-filter: blur(25px);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-  <!--ni css ya cuy-->
-  <style type="text/css">
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: sans-serif;
-      font-weight: bold;
-      outline: none;
-    }
+        #settings-panel.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-20px);
+        }
 
-    body {
-      background: black;
-    }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            max-height: 95vh;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 30px;
+            border-radius: 40px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            scrollbar-width: none; /* Hide scrollbar for Firefox */
+        }
 
-    .selection {
-      margin: 0 auto;
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-    }
+        .container::-webkit-scrollbar { display: none; } /* Hide scrollbar for Chrome/Safari */
 
-    .selection input {
-      border: none;
-      font-size: 20px;
-      min-height: 30px;
-      min-width: 100px;
-      background: transparent;
-      border-bottom: 1px solid #ddd;
-      color: white;
-    }
+        h1 {
+            font-size: 2.4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ff3b30, #ff9500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+        }
 
-    button {
-      font-size: 20px;
-      min-height: 30px;
-      border: none;
-      border-radius: 4px;
-      background: red;
-    }
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
 
-    button:hover {
-      background: #c2a300;
-    }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.75rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+        }
 
-    .selection input,
-    .selection button {
-      margin: 0 10px;
-      padding: 0 10px;
-    }
+        input[type="text"] {
+            width: 100%;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 18px;
+            border-radius: 14px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
 
-    .text {
-      font-size: 200px;
-      display: flex;
-      align-items: center;
-      height: 100vh;
-    }
-  </style>
-  <!--ampe sini css nya ya cuy-->
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            background: rgba(255,255,255,0.12);
+        }
 
+        .controls-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
 
+        .control-item {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 100%;
+            height: 44px;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+        input[type="color"]::-webkit-color-swatch {
+            border: 1.5px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 5px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+            outline: none;
+            accent-color: var(--accent-color);
+            margin-top: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .start-btn {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 10px 25px rgba(255, 59, 48, 0.3);
+        }
+
+        .secondary-btns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .secondary-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ddd;
+            font-size: 0.9rem;
+            padding: 12px;
+        }
+
+        .exit-btn {
+            background: rgba(255, 59, 48, 0.15);
+            color: #ff3b30;
+            border: 1px solid rgba(255, 59, 48, 0.3);
+            margin-top: 5px;
+        }
+
+        button:active {
+            transform: scale(0.97);
+            opacity: 0.9;
+        }
+
+        .dev-info {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .dev-name {
+            color: #999;
+            font-weight: 800;
+            font-size: 0.95rem;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* Display Area */
+        #display-area {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        #scrolling-text {
+            font-size: 75vh;
+            font-weight: 900;
+            line-height: 1;
+            padding-left: 100vw;
+            display: inline-block;
+            will-change: transform;
+            transform: translate3d(0, 0, 0); /* Force GPU acceleration */
+        }
+
+        /* Nav Gear Button */
+        #nav-btn {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 50;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+            opacity: 0.2;
+        }
+
+        #nav-btn:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        #nav-btn svg {
+            width: 26px;
+            height: 26px;
+            fill: white;
+        }
+
+        @keyframes scroll {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+    </style>
 </head>
-
 <body>
-  <div id="selection" class="selection">
-    <input type="text" minlength="1" id="text" placeholder="ENTER THE TEXT">
-    <input type="color" id="color" value="#00008b">
-    <button onclick="makeText()">START</button>
-  </div>
 
-  <div id="display" class="display" style="display: none;">
-    <marquee width="100%" id="textDisplay" class="text" scrollamount="40" direction="left">
-    </marquee>
-  </div>
+    <!-- Settings Panel -->
+    <div id="settings-panel">
+        <div class="container">
+            <h1>TEXT WALK</h1>
 
+            <div class="input-group">
+                <label for="text-input">Display Message</label>
+                <input type="text" id="text-input" placeholder="Enter text..." value="TEXT WALK">
+            </div>
 
-  <!--ni javascript ya cuy-->
-  <script type="text/javascript">
-    const selection = document.getElementById("selection");
-    const display = document.getElementById("display");
-    let textDisplay = document.getElementById("textDisplay");
+            <div class="controls-row">
+                <div class="control-item">
+                    <label for="text-color">Text Color</label>
+                    <input type="color" id="text-color" value="#ffffff">
+                </div>
+                <div class="control-item">
+                    <label for="bg-color">Background</label>
+                    <input type="color" id="bg-color" value="#000000">
+                </div>
+            </div>
 
-    textDisplay.stop();
+            <div class="input-group">
+                <label for="speed-input" id="speed-label">Speed: Normal</label>
+                <input type="range" id="speed-input" min="1" max="100" value="50" step="1">
+            </div>
 
-    function makeText() {
-      const text = document.getElementById("text");
-      const color = document.getElementById("color");
+            <div class="input-group">
+                <label for="size-input" id="size-label">Text Size: Large</label>
+                <input type="range" id="size-input" min="10" max="120" value="75" step="1">
+            </div>
 
-      if (!text.value || text.value == "" || text.value <= 4) {
-        return alert(" Enter the text, atlest 1 text mahfuckin")
-      }
+            <div class="button-group">
+                <button class="start-btn" onclick="startWalk()">START WALK</button>
+                <div class="secondary-btns">
+                    <button class="secondary-btn" onclick="resetDefaults()">RESET</button>
+                    <button class="secondary-btn" onclick="toggleSettings()">HIDE</button>
+                </div>
+                <button class="exit-btn" onclick="quitApp()">QUIT APPLICATION</button>
+            </div>
 
-      textDisplay.innerHTML = text.value;
-      textDisplay.style.color = color.value;
+            <div class="dev-info">
+                Developed by
+                <span class="dev-name">Dhrubo Basumatary</span>
+                <span style="opacity: 0.6; font-size: 0.7rem;">SOFTWARE DEVELOPER</span>
+            </div>
+        </div>
+    </div>
 
-      selection.style.display = "none";
-      display.style.display = "block";
+    <!-- Display Area -->
+    <div id="display-area">
+        <div id="scrolling-text">TEXT WALK</div>
+    </div>
 
-      alert("If you like it then install the app and its better when you install the app and turn phone landscape mode!");
+    <!-- Nav Button -->
+    <div id="nav-btn" onclick="toggleSettings()">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5zM19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65z"></path>
+        </svg>
+    </div>
 
-      textDisplay.start();
-    }
-  </script>
+    <script>
+        const settingsPanel = document.getElementById('settings-panel');
+        const textInput = document.getElementById('text-input');
+        const textColorInput = document.getElementById('text-color');
+        const bgColorInput = document.getElementById('bg-color');
+        const speedInput = document.getElementById('speed-input');
+        const speedLabel = document.getElementById('speed-label');
+        const sizeInput = document.getElementById('size-input');
+        const sizeLabel = document.getElementById('size-label');
+        const scrollingText = document.getElementById('scrolling-text');
 
+        // Load saved settings
+        function loadSettings() {
+            const saved = JSON.parse(localStorage.getItem('textWalkSettings') || '{}');
+            if (saved.text) textInput.value = saved.text;
+            if (saved.textColor) textColorInput.value = saved.textColor;
+            if (saved.bgColor) bgColorInput.value = saved.bgColor;
+            if (saved.speed) speedInput.value = saved.speed;
+            if (saved.size) sizeInput.value = saved.size;
+
+            updateLabels();
+            applyDisplaySettings();
+        }
+
+        function saveSettings() {
+            const settings = {
+                text: textInput.value,
+                textColor: textColorInput.value,
+                bgColor: bgColorInput.value,
+                speed: speedInput.value,
+                size: sizeInput.value
+            };
+            localStorage.setItem('textWalkSettings', JSON.stringify(settings));
+        }
+
+        function updateLabels() {
+            // Speed label
+            const sVal = speedInput.value;
+            let sTxt = "Normal";
+            if (sVal < 30) sTxt = "Slow";
+            if (sVal > 70) sTxt = "Fast";
+            if (sVal > 90) sTxt = "Huge Speed";
+            speedLabel.textContent = `Speed: ${sTxt}`;
+
+            // Size label
+            const szVal = sizeInput.value;
+            let szTxt = "Medium";
+            if (szVal < 40) szTxt = "Small";
+            if (szVal > 85) szTxt = "Large";
+            if (szVal > 110) szTxt = "Massive";
+            sizeLabel.textContent = `Text Size: ${szTxt}`;
+        }
+
+        function applyDisplaySettings() {
+            document.body.style.backgroundColor = bgColorInput.value;
+            scrollingText.style.color = textColorInput.value;
+            scrollingText.style.fontSize = `${sizeInput.value}vh`;
+            scrollingText.textContent = textInput.value || "TEXT WALK";
+        }
+
+        speedInput.addEventListener('input', updateLabels);
+        sizeInput.addEventListener('input', updateLabels);
+
+        function startWalk() {
+            saveSettings();
+            applyDisplaySettings();
+
+            // Reset and start animation
+            scrollingText.style.animation = 'none';
+            scrollingText.offsetHeight; // force reflow
+
+            const speed = parseInt(speedInput.value);
+            const duration = 40 - (speed * 0.38);
+            scrollingText.style.animation = `scroll ${duration}s linear infinite`;
+
+            settingsPanel.classList.add('hidden');
+        }
+
+        function toggleSettings() {
+            settingsPanel.classList.toggle('hidden');
+        }
+
+        function resetDefaults() {
+            textInput.value = "TEXT WALK";
+            textColorInput.value = "#ffffff";
+            bgColorInput.value = "#000000";
+            speedInput.value = "50";
+            sizeInput.value = "75";
+            updateLabels();
+            saveSettings();
+        }
+
+        function quitApp() {
+            if (window.Android && window.Android.exitApp) {
+                window.Android.exitApp();
+            } else {
+                console.log("Exit called (Web Preview Mode)");
+                alert("Exit functionality only works in the Android App.");
+            }
+        }
+
+        // Init
+        loadSettings();
+
+    </script>
 </body>
-
 </html>
