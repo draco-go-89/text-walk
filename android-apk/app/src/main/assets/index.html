@@ -9,14 +9,14 @@
             --bg-color: #000000;
             --text-color: #ffffff;
             --accent-color: #ff3b30;
-            --panel-bg: rgba(20, 20, 20, 0.95);
+            --panel-bg: rgba(15, 15, 15, 0.98);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -29,7 +29,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: background-color 0.5s ease;
+            transition: background-color 0.4s ease;
         }
 
         /* Settings Overlay */
@@ -40,79 +40,85 @@
             width: 100%;
             height: 100%;
             background: var(--panel-bg);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(25px);
             z-index: 100;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 10px;
             transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #settings-panel.hidden {
             opacity: 0;
             pointer-events: none;
-            transform: scale(1.05);
+            transform: translateY(-20px);
         }
 
         .container {
             width: 100%;
-            max-width: 480px;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 40px;
-            border-radius: 32px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            max-width: 500px;
+            max-height: 95vh;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 30px;
+            border-radius: 40px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
+            scrollbar-width: none; /* Hide scrollbar for Firefox */
         }
 
+        .container::-webkit-scrollbar { display: none; } /* Hide scrollbar for Chrome/Safari */
+
         h1 {
-            font-size: 2.8rem;
-            margin-bottom: 25px;
+            font-size: 2.4rem;
+            margin-bottom: 20px;
             background: linear-gradient(135deg, #ff3b30, #ff9500);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 900;
-            letter-spacing: -1px;
+            letter-spacing: -1.5px;
         }
 
         .input-group {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             text-align: left;
         }
 
         label {
             display: block;
-            margin-bottom: 10px;
-            font-size: 0.85rem;
+            margin-bottom: 8px;
+            font-size: 0.75rem;
             color: #888;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 600;
+            letter-spacing: 1.2px;
+            font-weight: 700;
         }
 
         input[type="text"] {
             width: 100%;
-            background: rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,255,255,0.1);
-            padding: 15px 20px;
-            border-radius: 16px;
+            padding: 12px 18px;
+            border-radius: 14px;
             color: white;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transition: all 0.3s;
         }
 
         input[type="text"]:focus {
             outline: none;
             border-color: var(--accent-color);
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.12);
         }
 
         .controls-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
         .control-item {
@@ -125,73 +131,91 @@
             -webkit-appearance: none;
             border: none;
             width: 100%;
-            height: 50px;
+            height: 44px;
             cursor: pointer;
             background: none;
             padding: 0;
         }
 
-        input[type="color"]::-webkit-color-swatch-wrapper {
-            padding: 0;
-        }
-
+        input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
         input[type="color"]::-webkit-color-swatch {
-            border: 2px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-        }
-
-        .speed-control {
-            margin-top: 10px;
+            border: 1.5px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
         }
 
         input[type="range"] {
             width: 100%;
-            height: 6px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 3px;
+            height: 5px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
             outline: none;
             accent-color: var(--accent-color);
-            margin-top: 15px;
+            margin-top: 10px;
         }
 
-        button.start-btn {
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        button {
             width: 100%;
-            padding: 18px;
-            margin-top: 30px;
-            background: var(--accent-color);
-            color: white;
+            padding: 16px;
             border: none;
-            border-radius: 18px;
-            font-size: 1.25rem;
+            border-radius: 16px;
+            font-size: 1.1rem;
             font-weight: 800;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 20px rgba(255, 59, 48, 0.2);
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        button.start-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(255, 59, 48, 0.3);
+        .start-btn {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 10px 25px rgba(255, 59, 48, 0.3);
         }
 
-        button.start-btn:active {
-            transform: translateY(1px);
+        .secondary-btns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .secondary-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ddd;
+            font-size: 0.9rem;
+            padding: 12px;
+        }
+
+        .exit-btn {
+            background: rgba(255, 59, 48, 0.15);
+            color: #ff3b30;
+            border: 1px solid rgba(255, 59, 48, 0.3);
+            margin-top: 5px;
+        }
+
+        button:active {
+            transform: scale(0.97);
+            opacity: 0.9;
         }
 
         .dev-info {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            color: #555;
-            font-size: 0.85rem;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            color: #666;
+            font-size: 0.8rem;
         }
 
         .dev-name {
-            color: #aaa;
-            font-weight: 700;
-            font-size: 1rem;
+            color: #999;
+            font-weight: 800;
+            font-size: 0.95rem;
             display: block;
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         /* Display Area */
@@ -214,44 +238,43 @@
             padding-left: 100vw;
             display: inline-block;
             will-change: transform;
+            transform: translate3d(0, 0, 0); /* Force GPU acceleration */
         }
 
-        /* Nav Button */
+        /* Nav Gear Button */
         #nav-btn {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 56px;
-            height: 56px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            top: 25px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             z-index: 50;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s;
-            opacity: 0.1;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+            opacity: 0.2;
         }
 
         #nav-btn:hover {
             opacity: 1;
-            background: rgba(255, 255, 255, 0.15);
-            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.12);
         }
 
         #nav-btn svg {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             fill: white;
-            opacity: 0.8;
         }
 
         @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
         }
 
     </style>
@@ -264,8 +287,8 @@
             <h1>TEXT WALK</h1>
 
             <div class="input-group">
-                <label for="text-input">Message</label>
-                <input type="text" id="text-input" placeholder="Type something..." value="TEXT WALK">
+                <label for="text-input">Display Message</label>
+                <input type="text" id="text-input" placeholder="Enter text..." value="TEXT WALK">
             </div>
 
             <div class="controls-row">
@@ -279,17 +302,29 @@
                 </div>
             </div>
 
-            <div class="input-group speed-control">
+            <div class="input-group">
                 <label for="speed-input" id="speed-label">Speed: Normal</label>
                 <input type="range" id="speed-input" min="1" max="100" value="50" step="1">
             </div>
 
-            <button class="start-btn" onclick="startWalk()">START WALK</button>
+            <div class="input-group">
+                <label for="size-input" id="size-label">Text Size: Large</label>
+                <input type="range" id="size-input" min="10" max="120" value="75" step="1">
+            </div>
+
+            <div class="button-group">
+                <button class="start-btn" onclick="startWalk()">START WALK</button>
+                <div class="secondary-btns">
+                    <button class="secondary-btn" onclick="resetDefaults()">RESET</button>
+                    <button class="secondary-btn" onclick="toggleSettings()">HIDE</button>
+                </div>
+                <button class="exit-btn" onclick="quitApp()">QUIT APPLICATION</button>
+            </div>
 
             <div class="dev-info">
                 Developed by
                 <span class="dev-name">Dhrubo Basumatary</span>
-                <span style="opacity: 0.6; font-size: 0.75rem;">SOFTWARE DEVELOPER</span>
+                <span style="opacity: 0.6; font-size: 0.7rem;">SOFTWARE DEVELOPER</span>
             </div>
         </div>
     </div>
@@ -299,10 +334,10 @@
         <div id="scrolling-text">TEXT WALK</div>
     </div>
 
-    <!-- Nav Button (Settings Toggle) -->
+    <!-- Nav Button -->
     <div id="nav-btn" onclick="toggleSettings()">
         <svg viewBox="0 0 24 24">
-            <path d="M12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5zM19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65z"></path>
+            <path d="M12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5zM19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65z"></path>
         </svg>
     </div>
 
@@ -313,36 +348,72 @@
         const bgColorInput = document.getElementById('bg-color');
         const speedInput = document.getElementById('speed-input');
         const speedLabel = document.getElementById('speed-label');
+        const sizeInput = document.getElementById('size-input');
+        const sizeLabel = document.getElementById('size-label');
         const scrollingText = document.getElementById('scrolling-text');
 
-        function updateSpeedLabel() {
-            const val = speedInput.value;
-            let label = "Normal";
-            if (val < 30) label = "Slow";
-            if (val > 70) label = "Fast";
-            if (val > 90) label = "Huge Speed";
-            speedLabel.textContent = `Speed: ${label}`;
+        // Load saved settings
+        function loadSettings() {
+            const saved = JSON.parse(localStorage.getItem('textWalkSettings') || '{}');
+            if (saved.text) textInput.value = saved.text;
+            if (saved.textColor) textColorInput.value = saved.textColor;
+            if (saved.bgColor) bgColorInput.value = saved.bgColor;
+            if (saved.speed) speedInput.value = saved.speed;
+            if (saved.size) sizeInput.value = saved.size;
+
+            updateLabels();
+            applyDisplaySettings();
         }
 
-        speedInput.addEventListener('input', updateSpeedLabel);
+        function saveSettings() {
+            const settings = {
+                text: textInput.value,
+                textColor: textColorInput.value,
+                bgColor: bgColorInput.value,
+                speed: speedInput.value,
+                size: sizeInput.value
+            };
+            localStorage.setItem('textWalkSettings', JSON.stringify(settings));
+        }
+
+        function updateLabels() {
+            // Speed label
+            const sVal = speedInput.value;
+            let sTxt = "Normal";
+            if (sVal < 30) sTxt = "Slow";
+            if (sVal > 70) sTxt = "Fast";
+            if (sVal > 90) sTxt = "Huge Speed";
+            speedLabel.textContent = `Speed: ${sTxt}`;
+
+            // Size label
+            const szVal = sizeInput.value;
+            let szTxt = "Medium";
+            if (szVal < 40) szTxt = "Small";
+            if (szVal > 85) szTxt = "Large";
+            if (szVal > 110) szTxt = "Massive";
+            sizeLabel.textContent = `Text Size: ${szTxt}`;
+        }
+
+        function applyDisplaySettings() {
+            document.body.style.backgroundColor = bgColorInput.value;
+            scrollingText.style.color = textColorInput.value;
+            scrollingText.style.fontSize = `${sizeInput.value}vh`;
+            scrollingText.textContent = textInput.value || "TEXT WALK";
+        }
+
+        speedInput.addEventListener('input', updateLabels);
+        sizeInput.addEventListener('input', updateLabels);
 
         function startWalk() {
-            const text = textInput.value || "TEXT WALK";
-            const textColor = textColorInput.value;
-            const bgColor = bgColorInput.value;
-            const speed = parseInt(speedInput.value);
+            saveSettings();
+            applyDisplaySettings();
 
-            document.body.style.backgroundColor = bgColor;
-            scrollingText.style.color = textColor;
-            scrollingText.textContent = text;
-
-            // Reset animation
+            // Reset and start animation
             scrollingText.style.animation = 'none';
-            scrollingText.offsetHeight; // trigger reflow
+            scrollingText.offsetHeight; // force reflow
 
-            // Calculate duration: 100 (fastest) -> ~2s, 1 (slowest) -> ~40s
+            const speed = parseInt(speedInput.value);
             const duration = 40 - (speed * 0.38);
-
             scrollingText.style.animation = `scroll ${duration}s linear infinite`;
 
             settingsPanel.classList.add('hidden');
@@ -352,8 +423,28 @@
             settingsPanel.classList.toggle('hidden');
         }
 
+        function resetDefaults() {
+            textInput.value = "TEXT WALK";
+            textColorInput.value = "#ffffff";
+            bgColorInput.value = "#000000";
+            speedInput.value = "50";
+            sizeInput.value = "75";
+            updateLabels();
+            saveSettings();
+        }
+
+        function quitApp() {
+            if (window.Android && window.Android.exitApp) {
+                window.Android.exitApp();
+            } else {
+                console.log("Exit called (Web Preview Mode)");
+                alert("Exit functionality only works in the Android App.");
+            }
+        }
+
         // Init
-        updateSpeedLabel();
+        loadSettings();
+
     </script>
 </body>
 </html>
