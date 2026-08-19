@@ -34,6 +34,7 @@ yarn-error.log*
 **/build/
 **/.externalNativeBuild/
 **/.cxx/
+android-apk/
 
 # Local configuration containing secrets
 android-apk/local.properties
